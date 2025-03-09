@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log In | Resume Builder</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.php" class="logo"><i class="fas fa-file-alt"></i> Resume Builder</a>
+    </nav>
+
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            
+            <form action="login.php" method="POST">
+                <h1>Log in</h1>
+                <br>
+                <input type="email" name="email" required placeholder="Email" value="" />
+                <input type="password" name="password" required placeholder="Password" value=""/>
+                <br>
+                <a href="#">Forgot your password?</a>
+                <button type="submit" class="btn">Log In</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1>Join Our Community!</h1>
+                    <p>Let Your Resume Speak for You! Get started on your perfect career path today.</p>
+                    <button class="ghost"><a href="signup.html">Sign Up</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
