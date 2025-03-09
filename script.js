@@ -927,7 +927,202 @@ function updateClassicTemplate() {
     preview.innerHTML = html;
 }
 
+function updateModernTemplate() {
+    const preview = document.getElementById('resumePreview');
+    let html = '';
 
+    // Header Section
+    html += '<div class="modern-header">';
+    if (document.getElementById('photoToggle').checked &&
+        document.getElementById('photoPreview').src !== '#' &&
+        document.getElementById('photoPreview').style.display !== 'none') {
+        html += `<img src="${document.getElementById('photoPreview').src}" class="modern-profile" alt="Profile Photo">`;
+    }
+    html += '<div class="modern-header-content">';
+    html += `<h1 class="modern-name">${document.getElementById('name').value}</h1>`;
+    html += '<div class="modern-contact">';
+    html += `<div>${document.getElementById('email').value}</div>`;
+    html += `<div>${document.getElementById('phone').value}</div>`;
+    html += '</div>';
+
+    // Social Links
+    if (document.getElementById('socialLinksToggle').checked) {
+        html += '<div class="modern-social">';
+        const socialItems = document.querySelectorAll('.social-link-item');
+        socialItems.forEach(item => {
+            const platform = item.querySelector('.social-platform').value;
+            const username = item.querySelector('.social-username').value;
+            const url = item.querySelector('.social-url').value;
+            if (username && url) {
+                html += `<a href="${url}" target="_blank" class="modern-social-link">${platform}: ${username}</a>`;
+            }
+        });
+        html += '</div>';
+    }
+    html += '</div></div>'; // Close header
+
+    // Main Content Layout
+    html += '<div class="modern-layout">';
+    
+    // Left Column
+    html += '<div class="modern-main">';
+
+    // Professional Summary
+    const summary = document.getElementById('summary').value.trim();
+    if (summary) {
+        html += '<div class="modern-section">';
+        html += '<h2 class="modern-section-title">Professional Summary</h2>';
+        html += `<div class="modern-summary">${summary}</div>`;
+        html += '</div>';
+    }
+
+    // Experience Section
+    if (document.getElementById('experienceToggle').checked) {
+        html += '<div class="modern-section">';
+        html += '<h2 class="modern-section-title">Professional Experience</h2>';
+        for (let i = 0; i < experienceCount; i++) {
+            const company = document.getElementById(`company${i}`);
+            const position = document.getElementById(`position${i}`);
+            const duration = document.getElementById(`duration${i}`);
+            const description = document.getElementById(`expDescription${i}`);
+            if (company && position) {
+                html += '<div class="modern-experience">';
+                html += `<div class="modern-role">${position.value}</div>`;
+                html += `<div class="modern-company">${company.value}</div>`;
+                html += `<div class="modern-duration">${duration.value}</div>`;
+                html += `<div class="modern-description">${description.value}</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Projects Section
+    if (document.getElementById('projectsToggle').checked) {
+        html += '<div class="modern-section">';
+        html += '<h2 class="modern-section-title">Projects</h2>';
+        for (let i = 0; i < projectCount; i++) {
+            const title = document.getElementById(`projectTitle${i}`);
+            const desc = document.getElementById(`projectDesc${i}`);
+            const tech = document.getElementById(`projectTech${i}`);
+            const link = document.getElementById(`projectLink${i}`);
+            const duration = document.getElementById(`projectDuration${i}`);
+            
+            if (title && desc) {
+                html += '<div class="modern-project">';
+                html += '<div class="modern-project-header">';
+                html += `<div class="modern-project-title">${title.value}</div>`;
+                if (duration && duration.value) {
+                    html += `<div class="modern-project-duration">${duration.value}</div>`;
+                }
+                html += '</div>';
+                if (tech && tech.value) {
+                    html += `<div class="modern-project-tech">Technologies: ${tech.value}</div>`;
+                }
+                html += `<div class="modern-project-description">${desc.value}</div>`;
+                if (link && link.value) {
+                    html += `<a href="${link.value}" target="_blank" class="modern-project-link">View Project →</a>`;
+                }
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Publications Section
+    if (document.getElementById('publicationsToggle').checked) {
+        html += '<div class="modern-section">';
+        html += '<h2 class="modern-section-title">Publications</h2>';
+        for (let i = 0; i < publicationCount; i++) {
+            const title = document.getElementById(`pubTitle${i}`);
+            const authors = document.getElementById(`pubAuthors${i}`);
+            const venue = document.getElementById(`pubVenue${i}`);
+            const year = document.getElementById(`pubYear${i}`);
+            if (title && authors) {
+                html += '<div class="modern-publication">';
+                html += `<div class="modern-pub-title">${title.value}</div>`;
+                html += `<div class="modern-pub-authors">${authors.value}</div>`;
+                html += `<div class="modern-pub-venue">${venue.value} (${year.value})</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    html += '</div>'; // Close modern-main
+
+    // Right Column
+    html += '<div class="modern-sidebar">';
+
+    // Education Section
+    if (document.getElementById('educationToggle').checked) {
+        html += '<div class="modern-section">';
+        html += '<h2 class="modern-section-title">Education</h2>';
+        for (let i = 0; i < educationCount; i++) {
+            const institution = document.getElementById(`institution${i}`);
+            const degree = document.getElementById(`degree${i}`);
+            const fieldOfStudy = document.getElementById(`fieldOfStudy${i}`);
+            const cgpa = document.getElementById(`cgpa${i}`);
+            const year = document.getElementById(`year${i}`);
+            
+            if (institution && degree) {
+                html += '<div class="modern-education">';
+                html += `<div class="modern-degree">${degree.value}</div>`;
+                if (fieldOfStudy && fieldOfStudy.value) {
+                    html += `<div class="modern-field">${fieldOfStudy.value}</div>`;
+                }
+                html += `<div class="modern-institution">${institution.value}</div>`;
+                html += `<div class="modern-edu-details">`;
+                if (year && year.value) html += `<span>${year.value}</span>`;
+                if (cgpa && cgpa.value) html += `<span>CGPA: ${cgpa.value}</span>`;
+                html += '</div>';
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Skills Section
+    if (document.getElementById('skillsToggle').checked) {
+        const skills = document.getElementById('skills').value.trim();
+        if (skills) {
+            html += '<div class="modern-section">';
+            html += '<h2 class="modern-section-title">Skills</h2>';
+            html += '<div class="modern-skills">';
+            skills.split(',').map(skill => skill.trim()).filter(skill => skill)
+                .forEach(skill => {
+                    html += `<span class="modern-skill">${skill}</span>`;
+                });
+            html += '</div></div>';
+        }
+    }
+
+    // Achievements Section
+    if (document.getElementById('achievementsToggle').checked) {
+        html += '<div class="modern-section">';
+        html += '<h2 class="modern-section-title">Achievements</h2>';
+        for (let i = 0; i < achievementCount; i++) {
+            const title = document.getElementById(`achieveTitle${i}`);
+            const desc = document.getElementById(`achieveDesc${i}`);
+            const year = document.getElementById(`achieveYear${i}`);
+            if (title && desc) {
+                html += '<div class="modern-achievement">';
+                html += `<div class="modern-achieve-title">${title.value}</div>`;
+                if (year && year.value) {
+                    html += `<div class="modern-achieve-year">${year.value}</div>`;
+                }
+                html += `<div class="modern-achieve-desc">${desc.value}</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    html += '</div>'; // Close modern-sidebar
+    html += '</div>'; // Close modern-layout
+
+    preview.innerHTML = html;
+}
 
 function updateMinimalTemplate() {
     const preview = document.getElementById('resumePreview');
@@ -1124,8 +1319,215 @@ function updateMinimalTemplate() {
     preview.innerHTML = html;
 }
 
+function updateProfessionalTemplate() {
+    const preview = document.getElementById('resumePreview');
+    let html = '';
 
+    // Professional Header
+    html += '<div class="prof-header">';
+    html += '<div class="prof-header-content">';
+    if (document.getElementById('photoToggle').checked &&
+        document.getElementById('photoPreview').src !== '#' &&
+        document.getElementById('photoPreview').style.display !== 'none') {
+        html += `<img src="${document.getElementById('photoPreview').src}" class="prof-photo" alt="Profile Photo">`;
+    }
+    html += '<div class="prof-title-section">';
+    html += `<h1 class="prof-name">${document.getElementById('name').value}</h1>`;
+    html += '<div class="prof-contact-info">';
+    html += `<div class="prof-contact-item"><i class="prof-icon">📧</i>${document.getElementById('email').value}</div>`;
+    html += `<div class="prof-contact-item"><i class="prof-icon">📱</i>${document.getElementById('phone').value}</div>`;
+    html += '</div>';
 
+    // Social Links
+    if (document.getElementById('socialLinksToggle').checked) {
+        html += '<div class="prof-social-links">';
+        const socialItems = document.querySelectorAll('.social-link-item');
+        socialItems.forEach(item => {
+            const platform = item.querySelector('.social-platform').value;
+            const url = item.querySelector('.social-url').value;
+            const username = item.querySelector('.social-username').value;
+            if (url && username) {
+                html += `<a href="${url}" target="_blank" class="prof-social-link">
+                    <span class="prof-social-platform">${platform}:</span> ${username}
+                </a>`;
+            }
+        });
+        html += '</div>';
+    }
+    html += '</div></div>'; // Close prof-title-section and prof-header-content
+
+    // Professional Summary
+    const summary = document.getElementById('summary').value.trim();
+    if (summary) {
+        html += '<div class="prof-summary">';
+        html += `<p>${summary}</p>`;
+        html += '</div>';
+    }
+    html += '</div>'; // Close prof-header
+
+    // Main Content Container
+    html += '<div class="prof-container">';
+
+    // Left Column
+    html += '<div class="prof-main-column">';
+
+    // Experience Section
+    if (document.getElementById('experienceToggle').checked) {
+        html += '<div class="prof-section">';
+        html += '<h2 class="prof-section-title">Professional Experience</h2>';
+        for (let i = 0; i < experienceCount; i++) {
+            const company = document.getElementById(`company${i}`);
+            const position = document.getElementById(`position${i}`);
+            const duration = document.getElementById(`duration${i}`);
+            const description = document.getElementById(`expDescription${i}`);
+            
+            if (company && position) {
+                html += '<div class="prof-experience">';
+                html += '<div class="prof-experience-header">';
+                html += `<h3 class="prof-position">${position.value}</h3>`;
+                html += `<span class="prof-duration">${duration.value}</span>`;
+                html += '</div>';
+                html += `<div class="prof-company">${company.value}</div>`;
+                html += `<div class="prof-description">${description.value}</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Projects Section
+    if (document.getElementById('projectsToggle').checked) {
+        html += '<div class="prof-section">';
+        html += '<h2 class="prof-section-title">Key Projects</h2>';
+        for (let i = 0; i < projectCount; i++) {
+            const title = document.getElementById(`projectTitle${i}`);
+            const desc = document.getElementById(`projectDesc${i}`);
+            const tech = document.getElementById(`projectTech${i}`);
+            const link = document.getElementById(`projectLink${i}`);
+            const duration = document.getElementById(`projectDuration${i}`);
+            
+            if (title && desc) {
+                html += '<div class="prof-project">';
+                html += '<div class="prof-project-header">';
+                html += `<h3 class="prof-project-title">${title.value}`;
+                if (link && link.value) {
+                    html += `<a href="${link.value}" target="_blank" class="prof-project-link">View Project →</a>`;
+                }
+                html += '</h3>';
+                if (duration && duration.value) {
+                    html += `<span class="prof-project-duration">${duration.value}</span>`;
+                }
+                html += '</div>';
+                if (tech && tech.value) {
+                    html += `<div class="prof-project-tech">Technologies: ${tech.value}</div>`;
+                }
+                html += `<div class="prof-project-description">${desc.value}</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Publications Section
+    if (document.getElementById('publicationsToggle').checked) {
+        html += '<div class="prof-section">';
+        html += '<h2 class="prof-section-title">Publications</h2>';
+        for (let i = 0; i < publicationCount; i++) {
+            const title = document.getElementById(`pubTitle${i}`);
+            const authors = document.getElementById(`pubAuthors${i}`);
+            const venue = document.getElementById(`pubVenue${i}`);
+            const year = document.getElementById(`pubYear${i}`);
+            
+            if (title && authors) {
+                html += '<div class="prof-publication">';
+                html += `<div class="prof-pub-title">${title.value}</div>`;
+                html += `<div class="prof-pub-authors">${authors.value}</div>`;
+                html += `<div class="prof-pub-venue">${venue.value} (${year.value})</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    html += '</div>'; // Close prof-main-column
+
+    // Right Column
+    html += '<div class="prof-side-column">';
+
+    // Education Section
+    if (document.getElementById('educationToggle').checked) {
+        html += '<div class="prof-section">';
+        html += '<h2 class="prof-section-title">Education</h2>';
+        for (let i = 0; i < educationCount; i++) {
+            const institution = document.getElementById(`institution${i}`);
+            const degree = document.getElementById(`degree${i}`);
+            const fieldOfStudy = document.getElementById(`fieldOfStudy${i}`);
+            const cgpa = document.getElementById(`cgpa${i}`);
+            const year = document.getElementById(`year${i}`);
+            
+            if (institution && degree) {
+                html += '<div class="prof-education">';
+                html += `<div class="prof-degree">${degree.value}</div>`;
+                if (fieldOfStudy && fieldOfStudy.value) {
+                    html += `<div class="prof-field">${fieldOfStudy.value}</div>`;
+                }
+                html += `<div class="prof-institution">${institution.value}</div>`;
+                html += '<div class="prof-edu-details">';
+                if (year && year.value) {
+                    html += `<span class="prof-year">${year.value}</span>`;
+                }
+                if (cgpa && cgpa.value) {
+                    html += `<span class="prof-cgpa">CGPA: ${cgpa.value}</span>`;
+                }
+                html += '</div>';
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Skills Section
+    if (document.getElementById('skillsToggle').checked) {
+        const skills = document.getElementById('skills').value.trim();
+        if (skills) {
+            html += '<div class="prof-section">';
+            html += '<h2 class="prof-section-title">Core Competencies</h2>';
+            html += '<div class="prof-skills">';
+            skills.split(',').map(skill => skill.trim()).filter(skill => skill)
+                .forEach(skill => {
+                    html += `<div class="prof-skill">${skill}</div>`;
+                });
+            html += '</div></div>';
+        }
+    }
+
+    // Achievements Section
+    if (document.getElementById('achievementsToggle').checked) {
+        html += '<div class="prof-section">';
+        html += '<h2 class="prof-section-title">Achievements</h2>';
+        for (let i = 0; i < achievementCount; i++) {
+            const title = document.getElementById(`achieveTitle${i}`);
+            const desc = document.getElementById(`achieveDesc${i}`);
+            const year = document.getElementById(`achieveYear${i}`);
+            
+            if (title && desc) {
+                html += '<div class="prof-achievement">';
+                html += `<div class="prof-achieve-title">${title.value}</div>`;
+                if (year && year.value) {
+                    html += `<div class="prof-achieve-year">${year.value}</div>`;
+                }
+                html += `<div class="prof-achieve-desc">${desc.value}</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    html += '</div>'; // Close prof-side-column
+    html += '</div>'; // Close prof-container
+
+    preview.innerHTML = html;
+}
 
 async function downloadPDF() {
     try {
