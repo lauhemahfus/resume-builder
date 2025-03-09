@@ -1529,6 +1529,470 @@ function updateProfessionalTemplate() {
     preview.innerHTML = html;
 }
 
+function updateCreativeTemplate() {
+    const preview = document.getElementById('resumePreview');
+    let html = '';
+
+    // Creative Header with Background
+    html += '<div class="creative-header">';
+    html += '<div class="creative-header-content">';
+    
+    // Photo Section
+    if (document.getElementById('photoToggle').checked &&
+        document.getElementById('photoPreview').src !== '#' &&
+        document.getElementById('photoPreview').style.display !== 'none') {
+        html += `<div class="creative-photo-container">
+            <img src="${document.getElementById('photoPreview').src}" class="creative-photo" alt="Profile Photo">
+        </div>`;
+    }
+
+    // Name and Contact
+    html += '<div class="creative-intro">';
+    html += `<h1 class="creative-name">${document.getElementById('name').value}</h1>`;
+    html += '<div class="creative-contact-info">';
+    html += `<span><i class="creative-icon">📧</i>${document.getElementById('email').value}</span>`;
+    html += `<span><i class="creative-icon">📱</i>${document.getElementById('phone').value}</span>`;
+    html += '</div>';
+
+    // Social Links
+    if (document.getElementById('socialLinksToggle').checked) {
+        html += '<div class="creative-social">';
+        const socialItems = document.querySelectorAll('.social-link-item');
+        socialItems.forEach(item => {
+            const platform = item.querySelector('.social-platform').value;
+            const url = item.querySelector('.social-url').value;
+            const username = item.querySelector('.social-username').value;
+            if (url && username) {
+                html += `<a href="${url}" target="_blank" class="creative-social-link">
+                    <i class="creative-social-icon">${getPlatformIcon(platform)}</i>
+                    <span>${username}</span>
+                </a>`;
+            }
+        });
+        html += '</div>';
+    }
+    html += '</div>'; // Close creative-intro
+    html += '</div>'; // Close creative-header-content
+
+    // Professional Summary
+    const summary = document.getElementById('summary').value.trim();
+    if (summary) {
+        html += '<div class="creative-summary">';
+        html += `<p>${summary}</p>`;
+        html += '</div>';
+    }
+    html += '</div>'; // Close creative-header
+
+    // Main Content
+    html += '<div class="creative-main">';
+
+    // Experience Section
+    if (document.getElementById('experienceToggle').checked) {
+        html += '<div class="creative-section">';
+        html += '<h2 class="creative-section-title">Work Experience</h2>';
+        html += '<div class="creative-timeline">';
+        for (let i = 0; i < experienceCount; i++) {
+            const company = document.getElementById(`company${i}`);
+            const position = document.getElementById(`position${i}`);
+            const duration = document.getElementById(`duration${i}`);
+            const description = document.getElementById(`expDescription${i}`);
+            
+            if (company && position) {
+                html += '<div class="creative-timeline-item">';
+                html += '<div class="creative-timeline-dot"></div>';
+                html += '<div class="creative-timeline-content">';
+                html += `<h3 class="creative-position">${position.value}</h3>`;
+                html += `<div class="creative-company">${company.value}</div>`;
+                html += `<div class="creative-duration">${duration.value}</div>`;
+                html += `<p class="creative-description">${description.value}</p>`;
+                html += '</div></div>';
+            }
+        }
+        html += '</div></div>';
+    }
+
+    // Two Column Layout for remaining sections
+    html += '<div class="creative-grid">';
+
+    // Left Column
+    html += '<div class="creative-column">';
+
+    // Education Section
+    if (document.getElementById('educationToggle').checked) {
+        html += '<div class="creative-section">';
+        html += '<h2 class="creative-section-title">Education</h2>';
+        for (let i = 0; i < educationCount; i++) {
+            const institution = document.getElementById(`institution${i}`);
+            const degree = document.getElementById(`degree${i}`);
+            const fieldOfStudy = document.getElementById(`fieldOfStudy${i}`);
+            const cgpa = document.getElementById(`cgpa${i}`);
+            const year = document.getElementById(`year${i}`);
+            
+            if (institution && degree) {
+                html += '<div class="creative-education">';
+                html += `<h3 class="creative-degree">${degree.value}</h3>`;
+                if (fieldOfStudy && fieldOfStudy.value) {
+                    html += `<div class="creative-field">${fieldOfStudy.value}</div>`;
+                }
+                html += `<div class="creative-institution">${institution.value}</div>`;
+                html += '<div class="creative-edu-details">';
+                if (year && year.value) {
+                    html += `<span class="creative-year">${year.value}</span>`;
+                }
+                if (cgpa && cgpa.value) {
+                    html += `<span class="creative-cgpa">CGPA: ${cgpa.value}</span>`;
+                }
+                html += '</div></div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Skills Section
+    if (document.getElementById('skillsToggle').checked) {
+        const skills = document.getElementById('skills').value.trim();
+        if (skills) {
+            html += '<div class="creative-section">';
+            html += '<h2 class="creative-section-title">Skills</h2>';
+            html += '<div class="creative-skills">';
+            skills.split(',').map(skill => skill.trim()).filter(skill => skill)
+                .forEach(skill => {
+                    html += `<div class="creative-skill">${skill}</div>`;
+                });
+            html += '</div></div>';
+        }
+    }
+
+    html += '</div>'; // Close left column
+
+    // Right Column
+    html += '<div class="creative-column">';
+
+    // Projects Section
+    if (document.getElementById('projectsToggle').checked) {
+        html += '<div class="creative-section">';
+        html += '<h2 class="creative-section-title">Projects</h2>';
+        for (let i = 0; i < projectCount; i++) {
+            const title = document.getElementById(`projectTitle${i}`);
+            const desc = document.getElementById(`projectDesc${i}`);
+            const tech = document.getElementById(`projectTech${i}`);
+            const link = document.getElementById(`projectLink${i}`);
+            const duration = document.getElementById(`projectDuration${i}`);
+            
+            if (title && desc) {
+                html += '<div class="creative-project">';
+                html += '<div class="creative-project-header">';
+                html += `<h3 class="creative-project-title">${title.value}</h3>`;
+                if (link && link.value) {
+                    html += `<a href="${link.value}" target="_blank" class="creative-project-link">View →</a>`;
+                }
+                html += '</div>';
+                if (duration && duration.value) {
+                    html += `<div class="creative-project-duration">${duration.value}</div>`;
+                }
+                if (tech && tech.value) {
+                    html += `<div class="creative-project-tech">${tech.value}</div>`;
+                }
+                html += `<p class="creative-project-description">${desc.value}</p>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Publications Section
+    if (document.getElementById('publicationsToggle').checked) {
+        html += '<div class="creative-section">';
+        html += '<h2 class="creative-section-title">Publications</h2>';
+        for (let i = 0; i < publicationCount; i++) {
+            const title = document.getElementById(`pubTitle${i}`);
+            const authors = document.getElementById(`pubAuthors${i}`);
+            const venue = document.getElementById(`pubVenue${i}`);
+            const year = document.getElementById(`pubYear${i}`);
+            
+            if (title && authors) {
+                html += '<div class="creative-publication">';
+                html += `<h3 class="creative-pub-title">${title.value}</h3>`;
+                html += `<div class="creative-pub-authors">${authors.value}</div>`;
+                html += `<div class="creative-pub-venue">${venue.value} (${year.value})</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Achievements Section
+    if (document.getElementById('achievementsToggle').checked) {
+        html += '<div class="creative-section">';
+        html += '<h2 class="creative-section-title">Achievements</h2>';
+        for (let i = 0; i < achievementCount; i++) {
+            const title = document.getElementById(`achieveTitle${i}`);
+            const desc = document.getElementById(`achieveDesc${i}`);
+            const year = document.getElementById(`achieveYear${i}`);
+            
+            if (title && desc) {
+                html += '<div class="creative-achievement">';
+                html += `<h3 class="creative-achieve-title">${title.value}</h3>`;
+                if (year && year.value) {
+                    html += `<div class="creative-achieve-year">${year.value}</div>`;
+                }
+                html += `<p class="creative-achieve-desc">${desc.value}</p>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    html += '</div>'; // Close right column
+    html += '</div>'; // Close creative-grid
+    html += '</div>'; // Close creative-main
+
+    preview.innerHTML = html;
+}
+
+// Helper function for social media icons
+function getPlatformIcon(platform) {
+    const icons = {
+        'LinkedIn': '🔗',
+        'GitHub': '💻',
+        'Twitter': '🐦',
+        'Portfolio': '🌐',
+        'Other': '📱'
+    };
+    return icons[platform] || '🔗';
+}
+
+function updateExecutiveTemplate() {
+    const preview = document.getElementById('resumePreview');
+    let html = '';
+
+    // Executive Header
+    html += '<div class="exec-header">';
+    html += '<div class="exec-header-main">';
+    
+    // Left side of header
+    html += '<div class="exec-header-left">';
+    if (document.getElementById('photoToggle').checked &&
+        document.getElementById('photoPreview').src !== '#' &&
+        document.getElementById('photoPreview').style.display !== 'none') {
+        html += `<div class="exec-photo-container">
+            <img src="${document.getElementById('photoPreview').src}" class="exec-photo" alt="Profile Photo">
+        </div>`;
+    }
+    html += `<h1 class="exec-name">${document.getElementById('name').value}</h1>`;
+    
+    // Professional Summary
+    const summary = document.getElementById('summary').value.trim();
+    if (summary) {
+        html += `<p class="exec-summary">${summary}</p>`;
+    }
+    html += '</div>'; // Close exec-header-left
+
+    // Right side of header - Contact Info
+    html += '<div class="exec-header-right">';
+    html += '<div class="exec-contact-info">';
+    html += `<div class="exec-contact-item">
+        <span class="exec-contact-label">Email</span>
+        <span class="exec-contact-value">${document.getElementById('email').value}</span>
+    </div>`;
+    html += `<div class="exec-contact-item">
+        <span class="exec-contact-label">Phone</span>
+        <span class="exec-contact-value">${document.getElementById('phone').value}</span>
+    </div>`;
+
+    // Social Links
+    if (document.getElementById('socialLinksToggle').checked) {
+        html += '<div class="exec-social-links">';
+        const socialItems = document.querySelectorAll('.social-link-item');
+        socialItems.forEach(item => {
+            const platform = item.querySelector('.social-platform').value;
+            const url = item.querySelector('.social-url').value;
+            const username = item.querySelector('.social-username').value;
+            if (url && username) {
+                html += `<div class="exec-contact-item">
+                    <span class="exec-contact-label">${platform}</span>
+                    <a href="${url}" target="_blank" class="exec-social-link">${username}</a>
+                </div>`;
+            }
+        });
+        html += '</div>';
+    }
+    html += '</div>'; // Close exec-contact-info
+    html += '</div>'; // Close exec-header-right
+    html += '</div>'; // Close exec-header-main
+    html += '</div>'; // Close exec-header
+
+    // Main Content
+    html += '<div class="exec-main">';
+
+    // Experience Section
+    if (document.getElementById('experienceToggle').checked) {
+        html += '<div class="exec-section">';
+        html += '<h2 class="exec-section-title">Professional Experience</h2>';
+        for (let i = 0; i < experienceCount; i++) {
+            const company = document.getElementById(`company${i}`);
+            const position = document.getElementById(`position${i}`);
+            const duration = document.getElementById(`duration${i}`);
+            const description = document.getElementById(`expDescription${i}`);
+            
+            if (company && position) {
+                html += '<div class="exec-experience">';
+                html += '<div class="exec-experience-header">';
+                html += `<div class="exec-position-company">
+                    <h3 class="exec-position">${position.value}</h3>
+                    <div class="exec-company">${company.value}</div>
+                </div>`;
+                html += `<div class="exec-duration">${duration.value}</div>`;
+                html += '</div>';
+                html += `<div class="exec-description">${description.value}</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Two Column Layout for other sections
+    html += '<div class="exec-grid">';
+
+    // Left Column
+    html += '<div class="exec-column">';
+
+    // Education Section
+    if (document.getElementById('educationToggle').checked) {
+        html += '<div class="exec-section">';
+        html += '<h2 class="exec-section-title">Education</h2>';
+        for (let i = 0; i < educationCount; i++) {
+            const institution = document.getElementById(`institution${i}`);
+            const degree = document.getElementById(`degree${i}`);
+            const fieldOfStudy = document.getElementById(`fieldOfStudy${i}`);
+            const cgpa = document.getElementById(`cgpa${i}`);
+            const year = document.getElementById(`year${i}`);
+            
+            if (institution && degree) {
+                html += '<div class="exec-education">';
+                html += `<div class="exec-degree">${degree.value}</div>`;
+                if (fieldOfStudy && fieldOfStudy.value) {
+                    html += `<div class="exec-field">${fieldOfStudy.value}</div>`;
+                }
+                html += `<div class="exec-institution">${institution.value}</div>`;
+                html += '<div class="exec-edu-details">';
+                if (year && year.value) {
+                    html += `<span>${year.value}</span>`;
+                }
+                if (cgpa && cgpa.value) {
+                    html += `<span>CGPA: ${cgpa.value}</span>`;
+                }
+                html += '</div>';
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Projects Section
+    if (document.getElementById('projectsToggle').checked) {
+        html += '<div class="exec-section">';
+        html += '<h2 class="exec-section-title">Key Projects</h2>';
+        for (let i = 0; i < projectCount; i++) {
+            const title = document.getElementById(`projectTitle${i}`);
+            const desc = document.getElementById(`projectDesc${i}`);
+            const tech = document.getElementById(`projectTech${i}`);
+            const link = document.getElementById(`projectLink${i}`);
+            const duration = document.getElementById(`projectDuration${i}`);
+            
+            if (title && desc) {
+                html += '<div class="exec-project">';
+                html += '<div class="exec-project-header">';
+                html += `<h3 class="exec-project-title">${title.value}</h3>`;
+                if (duration && duration.value) {
+                    html += `<div class="exec-project-duration">${duration.value}</div>`;
+                }
+                html += '</div>';
+                if (tech && tech.value) {
+                    html += `<div class="exec-project-tech">${tech.value}</div>`;
+                }
+                html += `<div class="exec-project-description">${desc.value}</div>`;
+                if (link && link.value) {
+                    html += `<a href="${link.value}" target="_blank" class="exec-project-link">View Project →</a>`;
+                }
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    html += '</div>'; // Close left column
+
+    // Right Column
+    html += '<div class="exec-column">';
+
+    // Skills Section
+    if (document.getElementById('skillsToggle').checked) {
+        const skills = document.getElementById('skills').value.trim();
+        if (skills) {
+            html += '<div class="exec-section">';
+            html += '<h2 class="exec-section-title">Core Competencies</h2>';
+            html += '<div class="exec-skills">';
+            skills.split(',').map(skill => skill.trim()).filter(skill => skill)
+                .forEach(skill => {
+                    html += `<div class="exec-skill">${skill}</div>`;
+                });
+            html += '</div></div>';
+        }
+    }
+
+    // Publications Section
+    if (document.getElementById('publicationsToggle').checked) {
+        html += '<div class="exec-section">';
+        html += '<h2 class="exec-section-title">Publications</h2>';
+        for (let i = 0; i < publicationCount; i++) {
+            const title = document.getElementById(`pubTitle${i}`);
+            const authors = document.getElementById(`pubAuthors${i}`);
+            const venue = document.getElementById(`pubVenue${i}`);
+            const year = document.getElementById(`pubYear${i}`);
+            
+            if (title && authors) {
+                html += '<div class="exec-publication">';
+                html += `<div class="exec-pub-title">${title.value}</div>`;
+                html += `<div class="exec-pub-authors">${authors.value}</div>`;
+                html += `<div class="exec-pub-venue">${venue.value} (${year.value})</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    // Achievements Section
+    if (document.getElementById('achievementsToggle').checked) {
+        html += '<div class="exec-section">';
+        html += '<h2 class="exec-section-title">Notable Achievements</h2>';
+        for (let i = 0; i < achievementCount; i++) {
+            const title = document.getElementById(`achieveTitle${i}`);
+            const desc = document.getElementById(`achieveDesc${i}`);
+            const year = document.getElementById(`achieveYear${i}`);
+            
+            if (title && desc) {
+                html += '<div class="exec-achievement">';
+                html += `<div class="exec-achieve-title">${title.value}</div>`;
+                if (year && year.value) {
+                    html += `<div class="exec-achieve-year">${year.value}</div>`;
+                }
+                html += `<div class="exec-achieve-desc">${desc.value}</div>`;
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+    }
+
+    html += '</div>'; // Close right column
+    html += '</div>'; // Close exec-grid
+    html += '</div>'; // Close exec-main
+
+    preview.innerHTML = html;
+}
+
+
+
 async function downloadPDF() {
     try {
         // Show loading indicator
