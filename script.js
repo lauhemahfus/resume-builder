@@ -213,6 +213,7 @@ function escapeHtml(unsafe) {
 }
 function saveAllData() {
     saveResumeData();
+    showSuccessMessage('Resume saved successfully!');
     // // Show loading indicator
     // showLoadingMessage('Saving resume data...');
 
@@ -530,11 +531,10 @@ function addEducation(data = null) {
         <input type="text" id="fieldOfStudy${educationCount}" 
             value="${data ? escapeHtml(data.field_of_study) : ''}" 
             oninput="updateResume(); autoSave()">
-        <label>CGPA/Percentage:</label>
+        <label>CGPA:</label>
         <input type="text" id="cgpa${educationCount}" 
             value="${data ? escapeHtml(data.cgpa) : ''}" 
-            oninput="updateResume(); autoSave()" 
-            placeholder="e.g., 3.8/4.0 or 85%">
+            oninput="updateResume(); autoSave()" >
         <label>Year:</label>
         <input type="text" id="year${educationCount}" 
             value="${data ? escapeHtml(data.year) : ''}" 
@@ -563,18 +563,15 @@ function addProject(data = null) {
         <label>Technologies Used:</label>
         <input type="text" id="projectTech${projectCount}" 
             value="${data ? escapeHtml(data.technologies) : ''}" 
-            oninput="updateResume(); autoSave()" 
-            placeholder="e.g., Python, React, Node.js">
+            oninput="updateResume(); autoSave()" >
         <label>Project Link (Optional):</label>
         <input type="url" id="projectLink${projectCount}" 
             value="${data ? escapeHtml(data.project_url) : ''}" 
-            oninput="updateResume(); autoSave()" 
-            placeholder="https://github.com/username/project">
+            oninput="updateResume(); autoSave()" >
         <label>Duration:</label>
         <input type="text" id="projectDuration${projectCount}" 
             value="${data ? escapeHtml(data.duration) : ''}" 
-            oninput="updateResume(); autoSave()" 
-            placeholder="e.g., Jan 2023 - Mar 2023">
+            oninput="updateResume(); autoSave()" >
         <button onclick="removeProject(this)" class="remove-button"><i class="fas fa-trash"></i>Remove</button>
     `;
     container.appendChild(projectDiv);
@@ -1073,7 +1070,10 @@ function updateModernTemplate() {
                 }
                 html += `<div class="modern-institution">${institution.value}</div>`;
                 html += `<div class="modern-edu-details">`;
-                if (year && year.value) html += `<span>${year.value}</span>`;
+                if (year && year.value) {
+                    html += `<span>${year.value}</span>`;
+                    if (cgpa && cgpa.value) html += ' • ';
+                }
                 if (cgpa && cgpa.value) html += `<span>CGPA: ${cgpa.value}</span>`;
                 html += '</div>';
                 html += '</div>';
@@ -1334,8 +1334,8 @@ function updateProfessionalTemplate() {
     html += '<div class="prof-title-section">';
     html += `<h1 class="prof-name">${document.getElementById('name').value}</h1>`;
     html += '<div class="prof-contact-info">';
-    html += `<div class="prof-contact-item"><i class="prof-icon">📧</i>${document.getElementById('email').value}</div>`;
-    html += `<div class="prof-contact-item"><i class="prof-icon">📱</i>${document.getElementById('phone').value}</div>`;
+    html += `<div class="prof-contact-item"><i class="prof-icon"><i class="fas fa-envelope"></i></i>${document.getElementById('email').value}</div>`;
+    html += `<div class="prof-contact-item"><i class="prof-icon"><i class="fas fa-phone-alt"></i></i>${document.getElementById('phone').value}</div>`;
     html += '</div>';
 
     // Social Links
@@ -1753,13 +1753,13 @@ function updateCreativeTemplate() {
 // Helper function for social media icons
 function getPlatformIcon(platform) {
     const icons = {
-        'LinkedIn': '🔗',
-        'GitHub': '💻',
-        'Twitter': '🐦',
-        'Portfolio': '🌐',
-        'Other': '📱'
+        'LinkedIn': '<i class="fab fa-linkedin"></i>',
+        'GitHub': '<i class="fab fa-github"></i>',
+        'Twitter': '<i class="fab fa-twitter"></i>',
+        'Portfolio': '<i class="fas fa-file-alt"></i>',
+        'Other': '<i class="fas fa-globe"></i>'
     };
-    return icons[platform] || '🔗';
+    return icons[platform] || '<i class="fas fa-file-alt"></i>';
 }
 
 function updateExecutiveTemplate() {

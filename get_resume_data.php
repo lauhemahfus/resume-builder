@@ -16,9 +16,11 @@ try {
     $data = [];
 
     // Get Personal Info
-    $stmt = $pdo->prepare("SELECT * FROM personal_info WHERE user_id = ?");
+    $stmt = $pdo->prepare("SELECT * FROM personal_info WHERE user_id = ? ORDER BY id DESC LIMIT 1");
     $stmt->execute([$user_id]);
     $data['personal_info'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    
 
     // Get Social Links
     $stmt = $pdo->prepare("SELECT * FROM social_links WHERE user_id = ?");
@@ -51,7 +53,7 @@ try {
     $data['achievements'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Get Skills
-    $stmt = $pdo->prepare("SELECT * FROM skills WHERE user_id = ?");
+    $stmt = $pdo->prepare("SELECT * FROM skills WHERE user_id = ? ORDER BY id DESC LIMIT 1");
     $stmt->execute([$user_id]);
     $data['skills'] = $stmt->fetch(PDO::FETCH_ASSOC);
 
