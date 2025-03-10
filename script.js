@@ -25,7 +25,6 @@ function saveResumeData() {
         achievements: getAchievementsData(),
         skills: document.getElementById('skills').value
     };
-
     fetch('save_resume.php', {
         method: 'POST',
         headers: {

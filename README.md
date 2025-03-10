@@ -5,6 +5,9 @@
 
 Check out the live demo here (Without Database): [Resume Builder Live](https://lauhemahfus.github.io/online-resume-builder/)
 
+## Preview
+![Preview](preview.gif)
+
 ## Overview
 
 Resume Builder is a web-based application that allows users to effortlessly create, edit, and manage their resumes online. Built with PHP, JavaScript, CSS, and HTML, this project offers a clean, user-friendly interface to design professional resumes. Whether you are job hunting or looking to update your credentials, Resume Builder provides a simple and effective solution.
