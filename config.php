@@ -4,7 +4,7 @@
 $servername = "localhost";
 $username = "root"; 
 $password = "";   
-$dbname = 'resume_maker';
+$dbname = 'resume_builder';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
