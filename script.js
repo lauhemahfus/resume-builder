@@ -25,6 +25,7 @@ function saveResumeData() {
         achievements: getAchievementsData(),
         skills: document.getElementById('skills').value
     };
+    previewImage();
     fetch('save_resume.php', {
         method: 'POST',
         headers: {
@@ -39,6 +40,8 @@ function saveResumeData() {
         }
     })
     .catch(error => console.error('Error saving resume data:', error));
+
+    showSuccessMessage('Resume saved successfully!');
 }
 
 
@@ -211,8 +214,8 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 function saveAllData() {
+
     saveResumeData();
-    showSuccessMessage('Resume saved successfully!');
     // // Show loading indicator
     // showLoadingMessage('Saving resume data...');
 
