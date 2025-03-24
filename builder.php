@@ -45,6 +45,12 @@ if (!isset($_SESSION['user_id'])) {
                 <option value="creative">Creative Template</option>
                 <option value="executive">Executive Template</option>
             </select>
+            <button onclick="copyPublicProfileLink()" class="nav-btn save-btn" title="Copy Public Profile Link">
+                <i class="fas fa-link"></i> Copy Profile Link
+            </button>
+            <a href="profile.php" class="nav-btn save-btn" title="Profile Settings">
+                <i class="fas fa-user"></i> <?php echo $_SESSION['username'] ?? ''; ?>
+            </a>
             <a href="logout.php" class="nav-btn logout-btn">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
@@ -218,5 +224,28 @@ if (!isset($_SESSION['user_id'])) {
     </div>
     <script src="script.js"></script>
 </body>
+<script>
+    function copyPublicProfileLink() {
+        const username = "<?php echo $_SESSION['username'] ?? ''; ?>";
+        const publicProfileLink = `http://localhost/resume-builder/portfolio.php?u=${username}`;
+        // Create a temporary textarea to copy the link
+        const tempInput = document.createElement('textarea');
+        tempInput.value = publicProfileLink;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+
+        try {
+            // Copy the text to clipboard
+            document.execCommand('copy');
+            alert('Public profile link copied to clipboard!');
+        } catch (err) {
+            console.error('Failed to copy link', err);
+            alert('Failed to copy link. Please copy manually.');
+        }
+
+        // Remove the temporary input
+        document.body.removeChild(tempInput);
+    }
+</script>
 
 </html>
