@@ -75,6 +75,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($data['personal_info']['full_name'] ?? 'My Profile') ?> - Resume</title>
+    <link rel="icon" type="image/png" href="<?= htmlspecialchars($data['personal_info']['photo_url'] ?? 'icon.png') ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
@@ -218,7 +219,7 @@ try {
 <body>
     <div class="profile-container">
         <div class="sidebar">
-            <img src="<?= htmlspecialchars($data['personal_info']['photo_url'] ?? 'https://via.placeholder.com/200') ?>" 
+            <img src="<?= htmlspecialchars($data['personal_info']['photo_url'] ?? 'backup.png') ?>" 
                  alt="Profile Photo" class="profile-photo">
             <div class="profile-name">
                 <h1><?= htmlspecialchars($data['personal_info']['full_name'] ?? 'Your Name') ?></h1>
